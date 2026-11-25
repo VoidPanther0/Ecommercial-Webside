@@ -1,0 +1,12 @@
+---
+import { site } from '../data/site';
+---
+
+{site.commerceMode === 'mock' && (
+  <div class="demo-banner" role="note" data-demo-banner>
+    <p>
+      Development demo — product data, prices and images are placeholders. No purchases, payments or
+      orders are real.
+    </p>
+  </div>
+)}

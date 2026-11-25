@@ -1,0 +1,60 @@
+---
+import type { ProductImage } from '../types/commerce';
+
+interface Props {
+  images: ProductImage[];
+  title: string;
+}
+
+const { images, title } = Astro.props;
+---
+
+<div class="product-gallery" data-gallery>
+  <div class="gallery-main">
+    {images.map((image, index) => (
+      <img
+        src={image.src}
+        alt={image.alt || `${title} — view ${index + 1}`}
+        width="900"
+        height="900"
+        loading={index === 0 ? 'eager' : 'lazy'}
+        decoding="async"
+        data-gallery-image={index}
+        hidden={index !== 0}
+      />
+    ))}
+  </div>
+  {images.length > 1 && (
+    <div class="gallery-thumbs" role="group" aria-label="Product images">
+      {images.map((image, index) => (
+        <button
+          type="button"
+          class="gallery-thumb"
+          data-gallery-thumb={index}
+          aria-label={`Show image ${index + 1} of ${images.length}`}
+          aria-pressed={String(index === 0)}
+        >
+          <img src={image.src} alt="" width="80" height="80" loading="lazy" decoding="async" />
+        </button>
+      ))}
+    </div>
+  )}
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-gallery]').forEach((gallery) => {
+    const images = gallery.querySelectorAll<HTMLImageElement>('[data-gallery-image]');
+    const thumbs = gallery.querySelectorAll<HTMLButtonElement>('[data-gallery-thumb]');
+    thumbs.forEach((thumb) => {
+      thumb.addEventListener('click', () => {
+        const index = Number(thumb.dataset.galleryThumb ?? 0);
+        images.forEach((image, i) => {
+          image.hidden = i !== index;
+        });
+        thumbs.forEach((button, i) => {
+          button.setAttribute('aria-pressed', String(i === index));
+        });
+      });
+    });
+  });
+</script>

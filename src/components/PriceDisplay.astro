@@ -1,0 +1,21 @@
+---
+import { formatMoney } from '../lib/money';
+
+interface Props {
+  price: number;
+  compareAtPrice?: number;
+  class?: string;
+}
+
+const { price, compareAtPrice, class: className = '' } = Astro.props;
+---
+
+<p class={`price ${className}`} data-price={price}>
+  <span class="price-current">{formatMoney(price)}</span>
+  {compareAtPrice !== undefined && compareAtPrice > price && (
+    <>
+      <span class="price-was">{formatMoney(compareAtPrice)}</span>
+      <span class="visually-hidden">Previously {formatMoney(compareAtPrice)}</span>
+    </>
+  )}
+</p>

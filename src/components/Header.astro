@@ -1,0 +1,56 @@
+---
+import { site } from '../data/site';
+const path = Astro.url.pathname;
+const links = [
+  { href: '/shop/', label: 'Shop' },
+  { href: '/categories/', label: 'Categories' },
+  { href: '/about/', label: 'About' },
+  { href: '/blog/', label: 'Guides' },
+  { href: '/contact/', label: 'Contact' },
+];
+const isActive = (href: string) => path === href || (href !== '/' && path.startsWith(href));
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label={`${site.name} home`}>{site.name}</a>
+
+    <nav class="desktop-nav" aria-label="Primary">
+      {links.map((link) => (
+        <a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>{link.label}</a>
+      ))}
+    </nav>
+
+    <div class="header-actions">
+      <a href="/search/" aria-label="Search products">Search</a>
+      <a href="/wishlist/" aria-label="Wishlist">Wishlist</a>
+      <a href="/cart/" aria-label="Shopping cart" data-cart-link>Cart (<span data-cart-count>0</span>)</a>
+      <details class="mobile-menu">
+        <summary aria-label="Open menu">Menu</summary>
+        <nav aria-label="Mobile">
+          {links.map((link) => <a href={link.href}>{link.label}</a>)}
+          <a href="/search/">Search</a>
+          <a href="/wishlist/">Wishlist</a>
+          <a href="/cart/">Cart</a>
+          <a href="/faq/">FAQ</a>
+          <a href="/track/">Track order</a>
+          <a href="/tools/">Internal tools</a>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<script>
+  import { cartCount } from '../lib/cart';
+
+  function updateCount() {
+    document.querySelectorAll<HTMLElement>('[data-cart-count]').forEach((el) => {
+      el.textContent = String(cartCount());
+    });
+  }
+
+  updateCount();
+  window.addEventListener('cart:change', updateCount);
+  window.addEventListener('storage', updateCount);
+</script>

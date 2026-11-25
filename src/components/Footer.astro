@@ -1,0 +1,63 @@
+---
+import { site } from '../data/site';
+const columns = [
+  {
+    title: 'Shop',
+    links: [
+      { href: '/shop/', label: 'All products' },
+      { href: '/categories/', label: 'Categories' },
+      { href: '/search/', label: 'Search' },
+      { href: '/wishlist/', label: 'Wishlist' },
+    ],
+  },
+  {
+    title: 'Support',
+    links: [
+      { href: '/faq/', label: 'FAQ' },
+      { href: '/shipping-policy/', label: 'Shipping policy' },
+      { href: '/returns/', label: 'Returns & refunds' },
+      { href: '/track/', label: 'Track order' },
+      { href: '/contact/', label: 'Contact us' },
+    ],
+  },
+  {
+    title: 'Company',
+    links: [
+      { href: '/about/', label: 'About us' },
+      { href: '/blog/', label: 'Buying guides' },
+      { href: '/tools/', label: 'Internal tools' },
+    ],
+  },
+  {
+    title: 'Legal',
+    links: [
+      { href: '/privacy/', label: 'Privacy policy' },
+      { href: '/terms/', label: 'Terms & conditions' },
+    ],
+  },
+];
+---
+
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a class="brand" href="/">{site.name}</a>
+      <p>Practical goods, presented clearly.</p>
+      <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
+    </div>
+    <div class="footer-columns">
+      {columns.map((column) => (
+        <section>
+          <h2>{column.title}</h2>
+          <ul>
+            {column.links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+          </ul>
+        </section>
+      ))}
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <p>© {new Date().getFullYear()} {site.name}. Placeholder brand for development.</p>
+    {site.commerceMode === 'mock' && <p>Demo mode — no real transactions.</p>}
+  </div>
+</footer>

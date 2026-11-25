@@ -1,0 +1,20 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  text: string;
+  href: string;
+  cta: string;
+}
+
+const { eyebrow, title, text, href, cta } = Astro.props;
+---
+
+<section class="promo-section">
+  <div>
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h2>{title}</h2>
+    <p>{text}</p>
+  </div>
+  <a class="btn btn-primary" href={href}>{cta}</a>
+</section>
